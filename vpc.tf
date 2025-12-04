@@ -3,33 +3,22 @@ resource "aws_vpc" "main" {
   instance_tenancy = "default"
 
   tags = {
-    Name = var.vpc_name_tag
-    Course = "terraform"
-    Batch = "b12"
+    Name    = "${var.vpc_name_tag}-${local.ws}" // to append workspace name to the vpc name tag
+    Course  = "terraform"
+    Batch   = "b12"
     Timings = "7-9"
   }
 }
 
-// i want to pass the vpc cidr as the  variable
-// syntax to declare a variable
+# resource "aws_vpc" "con_vpc" {
+#   cidr_block       = "172.31.0.0/16"
+#   instance_tenancy = "default"
+#   # count = local.c_azs == 5 ? 1 : 0
+#   count = terraform.workspace == "default" ? 1 : 0
+#   tags = {
+#     Name = "con_vpc-${local.ws}"
+#   }
 
-variable "vpc_cidr" {
-  description = "enter the vpc cidr block value"
-  type        = string
-  default     = "192.168.0.0/16"
-}
-
-variable "vpc_name_tag" {
-  description = "enter the vpc name tag value"
-  type        = string
-  default = "vpc-demo"
-  
-}
-
-// variable "variable_name"{}
-// everrything insode the resource block is configuration is optional
-# resource "resource_type" "resource_name" {
-#   # Configuration options
 # }
 
 // resource name can be anything you want,but give some
