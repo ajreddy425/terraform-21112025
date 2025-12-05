@@ -1,6 +1,9 @@
 resource "aws_vpc" "main" {
   cidr_block       = var.vpc_cidr // var.variable_name
   instance_tenancy = "default"
+  lifecycle {
+    # prevent_destroy = true
+  }
 
   tags = {
     Name    = "${var.vpc_name_tag}-${local.ws}" // to append workspace name to the vpc name tag
@@ -10,6 +13,7 @@ resource "aws_vpc" "main" {
   }
 }
 
+# vpc-077f5f1c5e1c2b7be
 # resource "aws_vpc" "con_vpc" {
 #   cidr_block       = "172.31.0.0/16"
 #   instance_tenancy = "default"

@@ -24,24 +24,28 @@
 #     "echo '<h1>Welcome to Web Server 1 - ${terraform.workspace}</h1>' | sudo tee /var/www/html/index.html"
 #   ]
 
-#   connection {
-#     type        = "ssh"
-#     user        = "ec2-user"
-#     private_key = file("~/.ssh/terraform-1711.pem")
-#     host        = aws_instance.web1[count.index].public_ip
-#   }
-# }
+ 
 
 #   tags = {
 #     Name = "ec2-web1-${count.index + 1}-${terraform.workspace}"
 #   }
 # }
 
-# // sg creation
+# // sg creation sg-0198a15ebe4c25552
 # resource "aws_security_group" "all_sg" {
 #   name        = "all_sg"
 #   description = "Allow inbound and outbound traffic"
 #   vpc_id      = aws_vpc.main.id
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+  # lifecycle {
+  #   ignore_changes = [
+  #     tags,
+  #     description
+  #   ]
+  # }
+
 
 #   # ✅ Inbound (Ingress)
 #   ingress {
@@ -72,4 +76,16 @@
 #   }
 # }
 
+# resource "aws_instance" "example" {
+#   ami           = "ami-0c55b159cbfafe1f0"
+#   instance_type = "t2.micro"
 
+#   lifecycle {
+#     prevent_destroy = true
+#     # ignore_changes  = [
+#     #   tags,
+#     #   user_data,
+#     # ]
+#     # create_before_destroy = true
+#   }
+# }
